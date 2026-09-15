@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Company Profile Maker
 
-# Run and deploy your AI Studio app
+বাংলাদেশের ছোট ব্যবসার জন্য "Company Profile Maker" SaaS — ইউজার ফ্রি সাইনআপ করে
+একটা ডিজাইন টেমপ্লেট বসিয়ে নিজের সাবডোমেইনে সাইট লাইভ করতে পারবে।
 
-This contains everything you need to run your app locally.
+## টেক স্ট্যাক
 
-View your app in AI Studio: https://ai.studio/apps/20e5f50f-5914-4e30-ad50-1b9e6610fcf3
+- **Next.js (App Router)** + **TypeScript** — ওয়েবসাইটের কাঠামো
+- **Tailwind CSS** — ডিজাইন/স্টাইল
+- **Supabase** — ডাটাবেস ও লগইন (অথ)
+- **Vercel** — হোস্টিং (সাইট লাইভ থাকে এখানে)
 
-## Run Locally
+## লোকালি চালানো (নিজের কম্পিউটারে)
 
-**Prerequisites:**  Node.js
+প্রথমে দরকার: [Node.js](https://nodejs.org) ইনস্টল করা থাকতে হবে।
 
+```bash
+npm install     # প্রয়োজনীয় সব প্যাকেজ ইনস্টল হবে
+npm run dev     # ডেভেলপমেন্ট সার্ভার চালু হবে
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+এরপর ব্রাউজারে যান: http://localhost:3000 — সেখানে "Hello World" পেজটা দেখতে পাবেন।
+
+## টেস্ট চেকলিস্ট (এই ধাপের জন্য)
+
+- [ ] `npm run dev` চালিয়ে লোকালে পেজ লোড হচ্ছে কিনা দেখুন
+- [ ] GitHub-এ কোড পুশ হয়েছে কিনা দেখুন (Actions/commit history)
+- [ ] Vercel-এ প্রজেক্ট কানেক্ট করে ডিপ্লয় হওয়া লিংকে (যেমন `your-app.vercel.app`) গিয়ে একই পেজ দেখা যাচ্ছে কিনা যাচাই করুন
+
+## পরের ধাপ
+
+1. Supabase প্রজেক্ট বানিয়ে অথেন্টিকেশন (সাইনআপ/লগইন) যোগ করা
+2. ডিজাইন গ্যালারি ও টেমপ্লেট "ইনস্টল" ফিচার বানানো
+3. সাবডোমেইন রাউটিং (`store.myapp.com`) সেটআপ করা
+4. পেইড টিয়ার: কাস্টম ডোমেইন, লিড ম্যানেজমেন্ট, প্রোডাক্ট ক্যাটালগ, অ্যানালিটিক্স
