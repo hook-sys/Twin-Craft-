@@ -2,8 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getLang } from "@/lib/lang";
+import { toStoredContent } from "@/lib/site-content";
 import { createClient } from "@/lib/supabase/server";
-import { templates } from "@/lib/templates";
+import { getTemplate, templates } from "@/lib/templates";
 
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,30}[a-z0-9]$/;
 
@@ -51,12 +53,15 @@ export async function installTemplate(
   }
 
   const { supabase, user } = await requireUser();
+  const language = await getLang();
 
   const { error } = await supabase.from("sites").insert({
     owner_id: user.id,
     slug,
     template,
-    business_name: businessName,
+    content_json: toStoredContent(
+      getTemplate(template).demo(businessName, language),
+    ),
   });
 
   if (error) {
@@ -69,7 +74,7 @@ export async function installTemplate(
     return { error: "সাইট তৈরি করা গেল না। / Could not create the site." };
   }
 
-  redirect("/dashboard");
+  redirect("/dashboard/edit");
 }
 
 export async function switchTemplate(

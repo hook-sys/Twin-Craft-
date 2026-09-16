@@ -13,7 +13,15 @@ import {
 const initialState: InstallState = { error: null };
 
 /** Renders a real template at reduced scale so the card shows the actual design. */
-function Thumbnail({ id, lang }: { id: string; lang: Lang }) {
+function Thumbnail({
+  id,
+  lang,
+  name,
+}: {
+  id: string;
+  lang: Lang;
+  name: string;
+}) {
   const template = templates.find((option) => option.id === id)!;
 
   return (
@@ -21,7 +29,7 @@ function Thumbnail({ id, lang }: { id: string; lang: Lang }) {
       <div className="h-[880px] w-[800px] origin-top-left scale-[0.28]">
         <TemplateRenderer
           template={id}
-          content={{ ...template.sample, language: lang }}
+          content={template.demo(name, lang)}
         />
       </div>
     </div>
@@ -74,7 +82,7 @@ export default function GalleryForm({
                   onChange={() => setSelected(template.id)}
                   className="sr-only"
                 />
-                <Thumbnail id={template.id} lang={lang} />
+                <Thumbnail id={template.id} lang={lang} name={t.businessNamePlaceholder} />
                 <p className="mt-3 flex items-center gap-2 font-semibold">
                   {template.name}
                   {currentTemplate === template.id && (
@@ -214,7 +222,7 @@ export default function GalleryForm({
             <div className="flex-1 overflow-y-auto">
               <TemplateRenderer
                 template={previewTemplate.id}
-                content={{ ...previewTemplate.sample, language: lang }}
+                content={previewTemplate.demo(t.businessNamePlaceholder, lang)}
               />
             </div>
           </div>

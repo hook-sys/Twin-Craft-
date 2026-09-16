@@ -2,18 +2,20 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TemplateRenderer } from "@/components/templates";
 import { siteLabels } from "@/lib/i18n";
-import { SITE_COLUMNS, toSiteContent, type SiteRow } from "@/lib/site-content";
+import { parseSiteContent } from "@/lib/site-content";
 import { createClient } from "@/lib/supabase/server";
 
 async function loadSite(slug: string) {
   const supabase = await createClient();
   const { data } = await supabase
     .from("sites")
-    .select(`template, ${SITE_COLUMNS}`)
+    .select("template, content_json")
     .eq("slug", slug)
-    .maybeSingle<SiteRow & { template: string }>();
+    .maybeSingle();
 
-  return data;
+  if (!data) return null;
+
+  return { template: data.template as string, content: parseSiteContent(data.content_json) };
 }
 
 export async function generateMetadata({
@@ -27,8 +29,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: site.business_name,
-    description: site.tagline ?? undefined,
+    title: site.content.businessName,
+    description: site.content.tagline ?? undefined,
   };
 }
 
@@ -40,13 +42,11 @@ export default async function SitePage({ params }: PageProps<"/s/[slug]">) {
     notFound();
   }
 
-  const content = toSiteContent(site);
-
   return (
     <div className="flex-1">
-      <TemplateRenderer template={site.template} content={content} />
+      <TemplateRenderer template={site.template} content={site.content} />
       <footer className="bg-white px-6 py-6 text-center text-xs text-zinc-400">
-        {siteLabels(content.language).builtWith}
+        {siteLabels(site.content.language).builtWith}
       </footer>
     </div>
   );
