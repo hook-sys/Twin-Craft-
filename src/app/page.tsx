@@ -4,15 +4,18 @@ import {
   Arrow,
   ArrowUpRight,
   Backdrop,
+  Bell,
   Bolt,
   BrandMark,
   Clock,
+  FileStack,
   Layers,
   Menu,
   Play,
   Search,
   ShieldCheck,
-  Wallet,
+  Star,
+  Users,
 } from "@/components/marketing/chrome";
 import { HeroMockup } from "@/components/marketing/hero-mockup";
 import { TemplateRenderer } from "@/components/templates";
@@ -70,28 +73,32 @@ export default async function Home() {
 
   const stats = [
     {
-      icon: <Wallet className="h-5 w-5" />,
-      tone: "bg-sky-100 text-sky-600",
+      icon: <Users className="h-5 w-5" />,
+      tone: "bg-teal-100 text-teal-600",
       value: t.stat1Value,
       label: t.stat1Label,
+      stars: false,
     },
     {
-      icon: <Layers className="h-5 w-5" />,
-      tone: "bg-indigo-100 text-indigo-600",
+      icon: <FileStack className="h-5 w-5" />,
+      tone: "bg-sky-100 text-sky-600",
       value: t.stat2Value,
       label: t.stat2Label,
+      stars: false,
     },
     {
-      icon: <Bolt className="h-5 w-5" />,
+      icon: <Bell className="h-5 w-5" />,
       tone: "bg-violet-100 text-violet-600",
       value: t.stat3Value,
       label: t.stat3Label,
+      stars: true,
     },
     {
       icon: <Clock className="h-5 w-5" />,
-      tone: "bg-emerald-100 text-emerald-600",
+      tone: "bg-amber-100 text-amber-600",
       value: t.stat4Value,
       label: t.stat4Label,
+      stars: false,
     },
   ];
 
@@ -173,7 +180,7 @@ export default async function Home() {
         </header>
 
         {/* --------------------------------------------------------- hero */}
-        <section className="relative grid items-center gap-12 py-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-8 lg:py-16">
+        <section className="relative grid items-center gap-12 py-12 lg:grid-cols-[0.99fr_1.01fr] lg:gap-6 lg:py-16">
           <div className="relative z-10">
             <span className="inline-flex items-center rounded-full border border-white/70 bg-white/80 px-4 py-1.5 text-sm font-medium text-slate-600 shadow-sm backdrop-blur">
               {t.heroBadge}
@@ -210,7 +217,7 @@ export default async function Home() {
               </Link>
             </div>
 
-            <dl className="mt-10 flex flex-wrap gap-x-8 gap-y-5">
+            <dl className="mt-10 flex flex-wrap gap-x-6 gap-y-5">
               {trust.map((item) => (
                 <div key={item.title} className="flex items-center gap-2.5">
                   <span
@@ -363,7 +370,16 @@ export default async function Home() {
                   {stat.icon}
                 </span>
                 <div className="min-w-0 leading-tight">
-                  <p className="text-xl font-extrabold">{stat.value}</p>
+                  <p className="flex items-center gap-1.5 text-xl font-extrabold">
+                    {stat.value}
+                    {stat.stars && (
+                      <span className="flex gap-0.5 text-amber-400">
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <Star key={index} className="h-3 w-3" />
+                        ))}
+                      </span>
+                    )}
+                  </p>
                   <p className="mt-0.5 text-[13px] text-slate-500">
                     {stat.label}
                   </p>

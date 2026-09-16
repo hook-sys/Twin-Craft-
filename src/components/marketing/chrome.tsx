@@ -388,3 +388,40 @@ export function LifeRing({ className }: { className?: string }) {
     </svg>
   );
 }
+
+export function Users({ className }: { className?: string }) {
+  return (
+    <svg {...stroke} className={className}>
+      <circle cx="9" cy="8.5" r="3.2" />
+      <path d="M3.5 19c.6-3.2 2.8-4.8 5.5-4.8s4.9 1.6 5.5 4.8" />
+      <path d="M16 6.2a3 3 0 0 1 0 5.8M17.5 14.6c2 .6 3.2 2.1 3.6 4.4" />
+    </svg>
+  );
+}
+
+export function FileStack({ className }: { className?: string }) {
+  return (
+    <svg {...stroke} className={className}>
+      <rect x="4" y="3.5" width="12" height="15" rx="2.5" />
+      <path d="M8 8h4M8 11.5h4M8 15h2.5" />
+      <path d="M19 7v11a2.5 2.5 0 0 1-2.5 2.5H8" />
+    </svg>
+  );
+}
+
+export function Star({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+      <path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9Z" />
+    </svg>
+  );
+}
+
+export function Bell({ className }: { className?: string }) {
+  return (
+    <svg {...stroke} className={className}>
+      <path d="M6.5 10a5.5 5.5 0 0 1 11 0c0 4 1.5 5.5 1.5 5.5H5S6.5 14 6.5 10Z" />
+      <path d="M10 18.5a2.2 2.2 0 0 0 4 0" />
+    </svg>
+  );
+}

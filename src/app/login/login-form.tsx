@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Arrow } from "@/components/marketing/chrome";
@@ -8,7 +7,7 @@ import type { UiLabels } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
-  "w-full rounded-2xl border border-slate-200 bg-white/90 py-3.5 pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100";
+  "w-full rounded-2xl border border-slate-200 bg-white/90 py-3.5 pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-900/10";
 
 function MailIcon() {
   return (
@@ -77,7 +76,7 @@ export default function LoginForm({ t }: { t: UiLabels }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1 className="text-3xl font-bold">{t.loginTitle}</h1>
+      <h1 className="text-3xl font-extrabold tracking-tight">{t.loginTitle}</h1>
       <p className="mt-2 text-slate-600">{t.loginSubtitle}</p>
 
       <label className="mt-8 block text-sm font-semibold" htmlFor="email">
@@ -131,18 +130,12 @@ export default function LoginForm({ t }: { t: UiLabels }) {
       <button
         type="submit"
         disabled={loading}
-        className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] py-4 font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:brightness-110 disabled:opacity-60"
+        className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#101a3d] py-4 font-semibold text-white shadow-xl shadow-slate-900/20 transition hover:bg-[#1b2a58] disabled:opacity-60"
       >
         {loading ? t.waiting : t.login}
         {!loading && <Arrow className="h-4 w-4" />}
       </button>
 
-      <p className="mt-6 text-center text-sm text-slate-600 lg:hidden">
-        {t.noAccount}{" "}
-        <Link href="/signup" className="font-semibold text-indigo-600">
-          {t.signupTitle}
-        </Link>
-      </p>
     </form>
   );
 }
