@@ -26,9 +26,17 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", user.id)
+    .maybeSingle();
+
   const email = user.email ?? "";
-  const raw = email.split("@")[0] || t.roleOwner;
-  const name = raw.charAt(0).toUpperCase() + raw.slice(1);
+  const fallback = email.split("@")[0] || t.roleOwner;
+  const name =
+    profile?.full_name?.trim() ||
+    fallback.charAt(0).toUpperCase() + fallback.slice(1);
 
   return (
     <DashboardShell

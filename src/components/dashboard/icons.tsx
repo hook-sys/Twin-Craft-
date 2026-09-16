@@ -213,3 +213,10 @@ export const MenuIcon = ({ className }: P) => (
     <path d="M4 7h16M4 12h16M4 17h16" />
   </svg>
 );
+
+export const WarningIcon = ({ className }: P) => (
+  <svg {...s} className={className}>
+    <path d="M12 4.5 20.5 19h-17Z" />
+    <path d="M12 10v4M12 16.5h.01" />
+  </svg>
+);

@@ -7,28 +7,38 @@ import {
   MenuIcon,
   SearchIcon,
 } from "@/components/dashboard/icons";
+import { getModule } from "@/lib/erp/modules";
 import type { Lang, UiLabels } from "@/lib/i18n";
 
-export function navItems(t: UiLabels): NavItem[] {
+export function navItems(t: UiLabels, lang: Lang): NavItem[] {
+  const fromModule = (key: string) => {
+    const erp = getModule(key);
+    return {
+      key,
+      label: erp ? erp.title[lang] : key,
+      href: `/dashboard/${key}`,
+      icon: erp?.icon ?? key,
+    };
+  };
+
   return [
-    { key: "dashboard", label: t.navDashboard, href: "/dashboard" },
-    { key: "account", label: t.navAccount },
-    { key: "site", label: t.navMySite, href: "/dashboard/edit", chevron: true },
-    {
-      key: "design",
-      label: t.navDesign,
-      href: "/dashboard/gallery",
-      chevron: true,
-    },
-    { key: "products", label: t.navProducts, chevron: true },
-    { key: "leads", label: t.navLeads, chevron: true },
-    { key: "reports", label: t.navReports },
-    { key: "subscriptions", label: t.navSubscriptions },
-    { key: "pages", label: t.navPages },
-    { key: "blog", label: t.navBlog },
-    { key: "support", label: t.navSupport },
-    { key: "settings", label: t.navSettings },
-    { key: "logs", label: t.navLogs },
+    { key: "dashboard", label: t.navDashboard, href: "/dashboard", icon: "dashboard" },
+    { key: "account", label: t.navAccount, href: "/dashboard/account", icon: "account" },
+    fromModule("inventory"),
+    fromModule("production"),
+    fromModule("hr"),
+    fromModule("crm"),
+    fromModule("leads"),
+    fromModule("accounts"),
+    { key: "site", label: t.navMySite, href: "/dashboard/edit", icon: "site" },
+    { key: "design", label: t.navDesign, href: "/dashboard/gallery", icon: "design" },
+    { key: "reports", label: t.navReports, href: "/dashboard/reports", icon: "reports" },
+    fromModule("subscriptions"),
+    fromModule("pages"),
+    fromModule("blog"),
+    fromModule("support"),
+    { key: "settings", label: t.navSettings, href: "/dashboard/settings", icon: "settings" },
+    fromModule("logs"),
   ];
 }
 
@@ -57,7 +67,7 @@ export default function DashboardShell({
   signOut: () => Promise<void>;
   children: React.ReactNode;
 }) {
-  const items = navItems(t);
+  const items = navItems(t, lang);
 
   return (
     <div className="flex min-h-screen w-full bg-[#f5f7fb] text-slate-900">

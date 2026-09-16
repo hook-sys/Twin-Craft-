@@ -2,28 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  BlogIcon,
-  BoxIcon,
-  CardIcon,
-  ChartIcon,
-  ChevronDown,
-  GearIcon,
-  HeadsetIcon,
-  HomeIcon,
-  LayersIcon,
-  ListIcon,
-  PageIcon,
-  PenIcon,
-  UserIcon,
-  UsersIcon,
-} from "@/components/dashboard/icons";
+import ModuleIcon from "@/components/dashboard/module-icon";
 
 export type NavItem = {
   key: string;
   label: string;
   href?: string;
-  chevron?: boolean;
+  icon: string;
 };
 
 export default function SidebarNav({ items }: { items: NavItem[] }) {
@@ -40,11 +25,10 @@ export default function SidebarNav({ items }: { items: NavItem[] }) {
 
         const inner = (
           <>
-            <span className="shrink-0">{iconFor(item.key)}</span>
+            <span className="shrink-0">
+              <ModuleIcon name={item.icon} className="h-5 w-5" />
+            </span>
             <span className="truncate">{item.label}</span>
-            {item.chevron && (
-              <ChevronDown className="ml-auto h-4 w-4 shrink-0 opacity-60" />
-            )}
           </>
         );
 
@@ -78,37 +62,4 @@ export default function SidebarNav({ items }: { items: NavItem[] }) {
       })}
     </nav>
   );
-}
-
-
-function iconFor(key: string) {
-  const className = "h-5 w-5";
-  switch (key) {
-    case "dashboard":
-      return <HomeIcon className={className} />;
-    case "account":
-      return <UserIcon className={className} />;
-    case "site":
-      return <BoxIcon className={className} />;
-    case "design":
-      return <PenIcon className={className} />;
-    case "products":
-      return <LayersIcon className={className} />;
-    case "leads":
-      return <UsersIcon className={className} />;
-    case "reports":
-      return <ChartIcon className={className} />;
-    case "subscriptions":
-      return <CardIcon className={className} />;
-    case "pages":
-      return <PageIcon className={className} />;
-    case "blog":
-      return <BlogIcon className={className} />;
-    case "support":
-      return <HeadsetIcon className={className} />;
-    case "settings":
-      return <GearIcon className={className} />;
-    default:
-      return <ListIcon className={className} />;
-  }
 }
