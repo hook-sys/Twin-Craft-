@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { SITE_COLUMNS, toSiteContent, type SiteRow } from "@/lib/site-content";
 import { createClient } from "@/lib/supabase/server";
 import EditForm from "./edit-form";
 
@@ -14,9 +15,9 @@ export default async function EditPage() {
 
   const { data: site } = await supabase
     .from("sites")
-    .select("slug, business_name, tagline, about, phone, address")
+    .select(`slug, ${SITE_COLUMNS}`)
     .eq("owner_id", user.id)
-    .maybeSingle();
+    .maybeSingle<SiteRow & { slug: string }>();
 
   if (!site) {
     redirect("/dashboard/gallery");
@@ -24,7 +25,7 @@ export default async function EditPage() {
 
   return (
     <main className="flex flex-1 justify-center px-6 py-12">
-      <EditForm site={site} />
+      <EditForm slug={site.slug} content={toSiteContent(site)} />
     </main>
   );
 }

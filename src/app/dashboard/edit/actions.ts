@@ -6,11 +6,23 @@ import { createClient } from "@/lib/supabase/server";
 
 export type EditState = { error: string | null; saved: boolean };
 
+function text(formData: FormData, field: string) {
+  const value = String(formData.get(field) ?? "").trim();
+  return value === "" ? null : value;
+}
+
+function lines(formData: FormData, field: string) {
+  return String(formData.get(field) ?? "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
 export async function saveSite(
   _previous: EditState,
   formData: FormData,
 ): Promise<EditState> {
-  const businessName = String(formData.get("business_name") ?? "").trim();
+  const businessName = text(formData, "business_name");
 
   if (!businessName) {
     return { error: "ব্যবসার নাম খালি রাখা যাবে না।", saved: false };
@@ -25,19 +37,20 @@ export async function saveSite(
     redirect("/login");
   }
 
-  const optional = (field: string) => {
-    const value = String(formData.get(field) ?? "").trim();
-    return value === "" ? null : value;
-  };
-
   const { data, error } = await supabase
     .from("sites")
     .update({
       business_name: businessName,
-      tagline: optional("tagline"),
-      about: optional("about"),
-      phone: optional("phone"),
-      address: optional("address"),
+      logo_url: text(formData, "logo_url"),
+      tagline: text(formData, "tagline"),
+      about: text(formData, "about"),
+      services: lines(formData, "services"),
+      highlights: lines(formData, "highlights"),
+      gallery: lines(formData, "gallery"),
+      phone: text(formData, "phone"),
+      email: text(formData, "email"),
+      address: text(formData, "address"),
+      hours: text(formData, "hours"),
       updated_at: new Date().toISOString(),
     })
     .eq("owner_id", user.id)

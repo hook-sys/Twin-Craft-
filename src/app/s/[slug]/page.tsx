@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { TemplateRenderer } from "@/components/templates";
+import { SITE_COLUMNS, toSiteContent, type SiteRow } from "@/lib/site-content";
 import { createClient } from "@/lib/supabase/server";
-import { getTemplate } from "@/lib/templates";
 
 async function loadSite(slug: string) {
   const supabase = await createClient();
   const { data } = await supabase
     .from("sites")
-    .select("template, business_name, tagline, about, phone, address")
+    .select(`template, ${SITE_COLUMNS}`)
     .eq("slug", slug)
-    .maybeSingle();
+    .maybeSingle<SiteRow & { template: string }>();
 
   return data;
 }
@@ -38,52 +39,13 @@ export default async function SitePage({ params }: PageProps<"/s/[slug]">) {
     notFound();
   }
 
-  const theme = getTemplate(site.template);
-
   return (
-    <div className={`flex min-h-full flex-1 flex-col ${theme.page}`}>
-      <header className={`px-6 py-20 text-center ${theme.hero}`}>
-        <h1 className={`text-4xl font-bold tracking-tight ${theme.heading}`}>
-          {site.business_name}
-        </h1>
-        {site.tagline && (
-          <p className={`mx-auto mt-3 max-w-xl text-lg ${theme.tagline}`}>
-            {site.tagline}
-          </p>
-        )}
-      </header>
-
-      <main className="mx-auto w-full max-w-2xl flex-1 px-6 py-12">
-        {site.about && (
-          <section className={`rounded-xl p-6 ${theme.card}`}>
-            <h2 className={`text-xs font-semibold tracking-wide ${theme.label}`}>
-              আমাদের সম্পর্কে
-            </h2>
-            <p className="mt-3 whitespace-pre-line leading-relaxed">
-              {site.about}
-            </p>
-          </section>
-        )}
-
-        {(site.phone || site.address) && (
-          <section className={`mt-6 rounded-xl p-6 ${theme.card}`}>
-            <h2 className={`text-xs font-semibold tracking-wide ${theme.label}`}>
-              যোগাযোগ
-            </h2>
-            {site.phone && (
-              <p className="mt-3">
-                ফোন:{" "}
-                <a href={`tel:${site.phone}`} className="font-medium underline">
-                  {site.phone}
-                </a>
-              </p>
-            )}
-            {site.address && <p className="mt-2">ঠিকানা: {site.address}</p>}
-          </section>
-        )}
-      </main>
-
-      <footer className="px-6 py-8 text-center text-xs opacity-60">
+    <div className="flex-1">
+      <TemplateRenderer
+        template={site.template}
+        content={toSiteContent(site)}
+      />
+      <footer className="bg-white px-6 py-6 text-center text-xs text-zinc-400">
         Company Profile Maker দিয়ে তৈরি
       </footer>
     </div>
