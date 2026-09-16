@@ -1,113 +1,15 @@
-"use client";
+import LanguageSwitch from "@/components/language-switch";
+import { uiLabels } from "@/lib/i18n";
+import { getLang } from "@/lib/lang";
+import SignupForm from "./signup-form";
 
-import Link from "next/link";
-import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
-
-export default function SignupPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
-    });
-
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
-    }
-
-    setDone(true);
-    setLoading(false);
-  }
-
-  if (done) {
-    return (
-      <main className="flex flex-1 items-center justify-center px-6 py-16">
-        <div className="w-full max-w-sm text-center">
-          <h1 className="text-2xl font-bold">ইমেইল দেখুন ✉️</h1>
-          <p className="mt-3 text-zinc-600 dark:text-zinc-400">
-            <strong>{email}</strong> ঠিকানায় একটা নিশ্চিতকরণ লিংক পাঠানো
-            হয়েছে। লিংকে ক্লিক করে অ্যাকাউন্ট চালু করুন, তারপর লগইন করুন।
-          </p>
-          <Link
-            href="/login"
-            className="mt-6 inline-block text-sm font-medium underline"
-          >
-            লগইন পেজে যান
-          </Link>
-        </div>
-      </main>
-    );
-  }
+export default async function SignupPage() {
+  const lang = await getLang();
 
   return (
-    <main className="flex flex-1 items-center justify-center px-6 py-16">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm">
-        <h1 className="text-2xl font-bold">ফ্রি অ্যাকাউন্ট খুলুন</h1>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          কয়েক সেকেন্ডেই শুরু করুন — কোনো কার্ড লাগবে না।
-        </p>
-
-        <label className="mt-6 block text-sm font-medium" htmlFor="email">
-          ইমেইল
-        </label>
-        <input
-          id="email"
-          type="email"
-          required
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
-        />
-
-        <label className="mt-4 block text-sm font-medium" htmlFor="password">
-          পাসওয়ার্ড
-        </label>
-        <input
-          id="password"
-          type="password"
-          required
-          minLength={6}
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
-        />
-        <p className="mt-1 text-xs text-zinc-500">কমপক্ষে ৬ অক্ষর</p>
-
-        {error && (
-          <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
-            {error}
-          </p>
-        )}
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="mt-6 w-full rounded-lg bg-black px-4 py-2.5 font-medium text-white disabled:opacity-50 dark:bg-white dark:text-black"
-        >
-          {loading ? "অপেক্ষা করুন..." : "অ্যাকাউন্ট খুলুন"}
-        </button>
-
-        <p className="mt-4 text-center text-sm text-zinc-600 dark:text-zinc-400">
-          আগে থেকেই অ্যাকাউন্ট আছে?{" "}
-          <Link href="/login" className="font-medium underline">
-            লগইন করুন
-          </Link>
-        </p>
-      </form>
+    <main className="flex flex-1 flex-col items-center justify-center gap-6 px-6 py-16">
+      <LanguageSwitch current={lang} />
+      <SignupForm t={uiLabels(lang)} />
     </main>
   );
 }

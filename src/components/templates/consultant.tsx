@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { siteLabels } from "@/lib/i18n";
 import type { SiteContent } from "@/lib/site-content";
 
 export default function ConsultantTemplate({
@@ -6,6 +7,8 @@ export default function ConsultantTemplate({
 }: {
   content: SiteContent;
 }) {
+  const L = siteLabels(content.language);
+
   return (
     <div className="min-h-full bg-white font-serif text-neutral-900">
       <header className="border-b-4 border-double border-neutral-800 px-6 py-12">
@@ -28,7 +31,7 @@ export default function ConsultantTemplate({
         {content.about && (
           <section>
             <h2 className="text-sm font-sans font-semibold text-neutral-600">
-              পরিচিতি
+              {L.intro}
             </h2>
             <p className="mt-4 whitespace-pre-line text-lg leading-loose">
               {content.about}
@@ -39,7 +42,7 @@ export default function ConsultantTemplate({
         {content.services.length > 0 && (
           <section className="mt-12">
             <h2 className="text-sm font-sans font-semibold text-neutral-600">
-              সেবাসমূহ
+              {L.servicesFormal}
             </h2>
             <ol className="mt-4 space-y-3">
               {content.services.map((service, index) => (
@@ -57,7 +60,7 @@ export default function ConsultantTemplate({
         {content.highlights.length > 0 && (
           <section className="mt-12">
             <h2 className="text-sm font-sans font-semibold text-neutral-600">
-              যোগ্যতা ও অভিজ্ঞতা
+              {L.credentials}
             </h2>
             <ul className="mt-4 space-y-2">
               {content.highlights.map((item) => (
@@ -71,13 +74,13 @@ export default function ConsultantTemplate({
 
         <section className="mt-12 border-t-4 border-double border-neutral-800 pt-6">
           <h2 className="text-sm font-sans font-semibold text-neutral-600">
-            চেম্বার ও যোগাযোগ
+            {L.chamber}
           </h2>
           <div className="mt-4 space-y-1 leading-relaxed">
             {content.address && <p>{content.address}</p>}
-            {content.phone && <p>ফোন: {content.phone}</p>}
-            {content.email && <p>ইমেইল: {content.email}</p>}
-            {content.hours && <p>সাক্ষাতের সময়: {content.hours}</p>}
+            {content.phone && <p>{L.phone}: {content.phone}</p>}
+            {content.email && <p>{L.email}: {content.email}</p>}
+            {content.hours && <p>{L.meetingHours}: {content.hours}</p>}
           </div>
         </section>
       </main>

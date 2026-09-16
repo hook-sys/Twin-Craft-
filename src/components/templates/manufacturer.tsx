@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { siteLabels } from "@/lib/i18n";
 import type { SiteContent } from "@/lib/site-content";
 
 export default function ManufacturerTemplate({
@@ -6,6 +7,8 @@ export default function ManufacturerTemplate({
 }: {
   content: SiteContent;
 }) {
+  const L = siteLabels(content.language);
+
   return (
     <div className="min-h-full bg-slate-900 font-sans text-slate-100">
       <header className="border-b-4 border-yellow-500 bg-slate-800 px-6 py-10">
@@ -34,7 +37,7 @@ export default function ManufacturerTemplate({
         {content.highlights.length > 0 && (
           <section>
             <h2 className="text-sm font-bold text-yellow-500">
-              সার্টিফিকেশন ও মান
+              {L.certifications}
             </h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {content.highlights.map((item) => (
@@ -52,7 +55,7 @@ export default function ManufacturerTemplate({
         {content.services.length > 0 && (
           <section className="mt-10">
             <h2 className="text-sm font-bold text-yellow-500">
-              উৎপাদন সক্ষমতা
+              {L.capacity}
             </h2>
             <table className="mt-4 w-full border-collapse text-sm">
               <tbody>
@@ -72,7 +75,7 @@ export default function ManufacturerTemplate({
         {content.about && (
           <section className="mt-10 border-l-4 border-yellow-500 bg-slate-800 p-6">
             <h2 className="text-sm font-bold text-yellow-500">
-              কোম্পানি প্রোফাইল
+              {L.profile}
             </h2>
             <p className="mt-3 whitespace-pre-line leading-relaxed text-slate-300">
               {content.about}
@@ -82,30 +85,30 @@ export default function ManufacturerTemplate({
 
         <section className="mt-10 bg-slate-800 p-6">
           <h2 className="text-sm font-bold text-yellow-500">
-            এক্সপোর্ট ইনকোয়ারি
+            {L.exportInquiry}
           </h2>
           <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
             {content.address && (
               <div>
-                <dt className="text-slate-400">ফ্যাক্টরি</dt>
+                <dt className="text-slate-400">{L.factory}</dt>
                 <dd>{content.address}</dd>
               </div>
             )}
             {content.phone && (
               <div>
-                <dt className="text-slate-400">ফোন</dt>
+                <dt className="text-slate-400">{L.phone}</dt>
                 <dd>{content.phone}</dd>
               </div>
             )}
             {content.email && (
               <div>
-                <dt className="text-slate-400">ইমেইল</dt>
+                <dt className="text-slate-400">{L.email}</dt>
                 <dd>{content.email}</dd>
               </div>
             )}
             {content.hours && (
               <div>
-                <dt className="text-slate-400">কর্মঘণ্টা</dt>
+                <dt className="text-slate-400">{L.workHours}</dt>
                 <dd>{content.hours}</dd>
               </div>
             )}

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { isLang } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase/server";
 
 export type EditState = { error: string | null; saved: boolean };
@@ -25,7 +26,10 @@ export async function saveSite(
   const businessName = text(formData, "business_name");
 
   if (!businessName) {
-    return { error: "ব্যবসার নাম খালি রাখা যাবে না।", saved: false };
+    return {
+      error: "ব্যবসার নাম খালি রাখা যাবে না। / Business name cannot be empty.",
+      saved: false,
+    };
   }
 
   const supabase = await createClient();
@@ -41,6 +45,7 @@ export async function saveSite(
     .from("sites")
     .update({
       business_name: businessName,
+      language: isLang(formData.get("language")) ? formData.get("language") : "bn",
       logo_url: text(formData, "logo_url"),
       tagline: text(formData, "tagline"),
       about: text(formData, "about"),
@@ -58,7 +63,10 @@ export async function saveSite(
     .maybeSingle();
 
   if (error || !data) {
-    return { error: "সংরক্ষণ করা গেল না। আবার চেষ্টা করুন।", saved: false };
+    return {
+      error: "সংরক্ষণ করা গেল না। / Could not save. Please try again.",
+      saved: false,
+    };
   }
 
   revalidatePath(`/s/${data.slug}`);

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
+import { LANGUAGES, type UiLabels } from "@/lib/i18n";
 import type { SiteContent } from "@/lib/site-content";
 import { saveSite, type EditState } from "./actions";
 
@@ -17,21 +18,23 @@ function Hint({ children }: { children: React.ReactNode }) {
 export default function EditForm({
   slug,
   content,
+  t,
 }: {
   slug: string;
   content: SiteContent;
+  t: UiLabels;
 }) {
   const [state, formAction, pending] = useActionState(saveSite, initialState);
 
   return (
     <form action={formAction} className="w-full max-w-lg">
-      <h1 className="text-2xl font-bold">সাইটের তথ্য</h1>
+      <h1 className="text-2xl font-bold">{t.editTitle}</h1>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        যা লিখবেন তা সংরক্ষণের পর সাথে সাথে আপনার সাইটে দেখা যাবে।
+        {t.editSubtitle}
       </p>
 
       <label className="mt-6 block text-sm font-medium" htmlFor="business_name">
-        ব্যবসার নাম
+        {t.businessName}
       </label>
       <input
         id="business_name"
@@ -41,19 +44,36 @@ export default function EditForm({
         className={field}
       />
 
+      <label className="mt-4 block text-sm font-medium" htmlFor="language">
+        {t.siteLanguage}
+      </label>
+      <select
+        id="language"
+        name="language"
+        defaultValue={content.language}
+        className={field}
+      >
+        {LANGUAGES.map((option) => (
+          <option key={option.code} value={option.code}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <Hint>{t.siteLanguageHint}</Hint>
+
       <label className="mt-4 block text-sm font-medium" htmlFor="tagline">
-        এক লাইনের পরিচয়
+        {t.tagline}
       </label>
       <input
         id="tagline"
         name="tagline"
         defaultValue={content.tagline ?? ""}
-        placeholder="যেমন: ২০ বছর ধরে সেরা মানের পণ্য"
+        placeholder={t.taglinePlaceholder}
         className={field}
       />
 
       <label className="mt-4 block text-sm font-medium" htmlFor="logo_url">
-        লোগোর লিংক
+        {t.logoUrl}
       </label>
       <input
         id="logo_url"
@@ -62,61 +82,59 @@ export default function EditForm({
         placeholder="https://..."
         className={field}
       />
-      <Hint>ছবির ইন্টারনেট ঠিকানা বসান। না দিলে নামের প্রথম অক্ষর দেখাবে।</Hint>
+      <Hint>{t.logoHint}</Hint>
 
       <label className="mt-4 block text-sm font-medium" htmlFor="about">
-        আমাদের সম্পর্কে
+        {t.aboutLabel}
       </label>
       <textarea
         id="about"
         name="about"
         rows={5}
         defaultValue={content.about ?? ""}
-        placeholder="আপনার ব্যবসার গল্প লিখুন।"
+        placeholder={t.aboutPlaceholder}
         className={field}
       />
 
       <label className="mt-4 block text-sm font-medium" htmlFor="services">
-        পণ্য বা সেবার তালিকা
+        {t.servicesLabel}
       </label>
       <textarea
         id="services"
         name="services"
         rows={5}
         defaultValue={content.services.join("\n")}
-        placeholder={"চাল ও ডাল\nভোজ্য তেল\nপ্রসাধনী"}
         className={field}
       />
-      <Hint>প্রতি লাইনে একটা করে লিখুন।</Hint>
+      <Hint>{t.perLineHint}</Hint>
 
       <label className="mt-4 block text-sm font-medium" htmlFor="highlights">
-        বিশেষ দিক / সার্টিফিকেশন
+        {t.highlightsLabel}
       </label>
       <textarea
         id="highlights"
         name="highlights"
         rows={3}
         defaultValue={content.highlights.join("\n")}
-        placeholder={"হোম ডেলিভারি\n১০০% আসল পণ্য"}
         className={field}
       />
-      <Hint>প্রতি লাইনে একটা করে।</Hint>
+      <Hint>{t.perLineHint}</Hint>
 
       <label className="mt-4 block text-sm font-medium" htmlFor="gallery">
-        ছবির গ্যালারি
+        {t.galleryLabel}
       </label>
       <textarea
         id="gallery"
         name="gallery"
         rows={3}
         defaultValue={content.gallery.join("\n")}
-        placeholder={"https://.../ছবি-১.jpg\nhttps://.../ছবি-২.jpg"}
+        placeholder={"https://.../photo-1.jpg\nhttps://.../photo-2.jpg"}
         className={field}
       />
-      <Hint>প্রতি লাইনে একটা ছবির লিংক। ইভেন্ট ও রেস্টুরেন্ট ডিজাইনে দেখাবে।</Hint>
+      <Hint>{t.galleryHint}</Hint>
 
       <label className="mt-4 block text-sm font-medium" htmlFor="phone">
-        ফোন নম্বর
+        {t.phoneLabel}
       </label>
       <input
         id="phone"
@@ -127,7 +145,7 @@ export default function EditForm({
       />
 
       <label className="mt-4 block text-sm font-medium" htmlFor="email">
-        ইমেইল
+        {t.emailLabel}
       </label>
       <input
         id="email"
@@ -138,7 +156,7 @@ export default function EditForm({
       />
 
       <label className="mt-4 block text-sm font-medium" htmlFor="address">
-        ঠিকানা
+        {t.addressLabel}
       </label>
       <input
         id="address"
@@ -148,13 +166,13 @@ export default function EditForm({
       />
 
       <label className="mt-4 block text-sm font-medium" htmlFor="hours">
-        খোলা থাকার সময়
+        {t.hoursLabel}
       </label>
       <input
         id="hours"
         name="hours"
         defaultValue={content.hours ?? ""}
-        placeholder="সকাল ৯টা - রাত ৯টা"
+        placeholder={t.hoursPlaceholder}
         className={field}
       />
 
@@ -166,13 +184,13 @@ export default function EditForm({
 
       {state.saved && (
         <p className="mt-4 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
-          সংরক্ষণ হয়েছে ✓{" "}
+          {t.saved}{" "}
           <Link
             href={`/s/${slug}`}
             target="_blank"
             className="font-medium underline"
           >
-            সাইটে দেখুন
+            {t.seeOnSite}
           </Link>
         </p>
       )}
@@ -183,13 +201,13 @@ export default function EditForm({
           disabled={pending}
           className="rounded-lg bg-black px-5 py-2.5 font-medium text-white disabled:opacity-50 dark:bg-white dark:text-black"
         >
-          {pending ? "সংরক্ষণ হচ্ছে..." : "সংরক্ষণ করুন"}
+          {pending ? t.saving : t.save}
         </button>
         <Link
           href="/dashboard"
           className="rounded-lg border border-zinc-300 px-5 py-2.5 font-medium dark:border-zinc-700"
         >
-          ফিরে যান
+          {t.back}
         </Link>
       </div>
     </form>

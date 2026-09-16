@@ -22,6 +22,7 @@ export const templates: TemplateMeta[] = [
     description: "উজ্জ্বল কমলা রঙ, পণ্যের গ্রিড আর উপরে বড় করে অর্ডারের নম্বর।",
     swatch: "bg-gradient-to-br from-orange-400 to-yellow-400",
     sample: {
+      language: "bn",
       businessName: "রহিম ভ্যারাইটিজ স্টোর",
       logoUrl: null,
       tagline: "এলাকার সবচেয়ে সাশ্রয়ী দোকান",
@@ -50,6 +51,7 @@ export const templates: TemplateMeta[] = [
     description: "নীল ও নির্ভরযোগ্য সাজ, সবার উপরে বড় কল বাটন।",
     swatch: "bg-gradient-to-br from-blue-500 to-blue-800",
     sample: {
+      language: "bn",
       businessName: "করিম ইলেকট্রিক সার্ভিস",
       logoUrl: null,
       tagline: "২৪ ঘণ্টা বিদ্যুৎ সমস্যার সমাধান",
@@ -77,6 +79,7 @@ export const templates: TemplateMeta[] = [
     description: "সাদা জমিনে সিরিফ টাইপোগ্রাফি — নথির মতো আনুষ্ঠানিক ও পেশাদার।",
     swatch: "bg-gradient-to-br from-neutral-300 to-neutral-700",
     sample: {
+      language: "bn",
       businessName: "অ্যাডভোকেট এ. কে. এম. হাসান",
       logoUrl: null,
       tagline: "আইন পরামর্শ ও মামলা পরিচালনা",
@@ -107,6 +110,7 @@ export const templates: TemplateMeta[] = [
     description: "গাঢ় পটভূমিতে সোনালি লেখা, মেনু-কার্ডের মতো সাজানো।",
     swatch: "bg-gradient-to-br from-neutral-800 to-amber-700",
     sample: {
+      language: "bn",
       businessName: "নবাবি ভোজ",
       logoUrl: null,
       tagline: "পুরান ঢাকার ঐতিহ্যবাহী স্বাদ",
@@ -135,6 +139,7 @@ export const templates: TemplateMeta[] = [
     description: "শিল্প-ধাঁচের গাঢ় ধূসর ও হলুদ, সার্টিফিকেশন সামনে রাখা।",
     swatch: "bg-gradient-to-br from-slate-700 to-yellow-500",
     sample: {
+      language: "bn",
       businessName: "মেঘনা টেক্সটাইল মিলস লিমিটেড",
       logoUrl: null,
       tagline: "এক্সপোর্ট কোয়ালিটি নিটওয়্যার",
@@ -162,6 +167,7 @@ export const templates: TemplateMeta[] = [
     description: "গোলাপি ও কোমল, বড় ছবির গ্যালারিই মূল আকর্ষণ।",
     swatch: "bg-gradient-to-br from-rose-300 to-pink-500",
     sample: {
+      language: "bn",
       businessName: "শুভক্ষণ ইভেন্টস",
       logoUrl: null,
       tagline: "আপনার বিশেষ দিনটি স্মরণীয় করে তুলি",
@@ -200,6 +206,7 @@ export const templates: TemplateMeta[] = [
     description: "বেগুনি-নীল গ্রেডিয়েন্ট, বিষয়ভিত্তিক কার্ড ও ভর্তির বাটন।",
     swatch: "bg-gradient-to-br from-indigo-500 to-violet-600",
     sample: {
+      language: "bn",
       businessName: "উন্মেষ কোচিং সেন্টার",
       logoUrl: null,
       tagline: "এসএসসি ও এইচএসসি প্রস্তুতির নির্ভরযোগ্য ঠিকানা",
@@ -228,6 +235,7 @@ export const templates: TemplateMeta[] = [
     description: "সাদামাটা ও নিরপেক্ষ — কোনো ধরনের ব্যবসাতেই মানিয়ে যায়।",
     swatch: "bg-gradient-to-br from-zinc-200 to-zinc-500",
     sample: {
+      language: "bn",
       businessName: "আপনার প্রতিষ্ঠানের নাম",
       logoUrl: null,
       tagline: "এক লাইনে আপনার পরিচয়",

@@ -2,29 +2,46 @@
 
 import { useActionState, useState } from "react";
 import { TemplateRenderer } from "@/components/templates";
+import type { Lang, UiLabels } from "@/lib/i18n";
 import { templates } from "@/lib/templates";
-import { installTemplate, type InstallState } from "./actions";
+import {
+  installTemplate,
+  switchTemplate,
+  type InstallState,
+} from "./actions";
 
 const initialState: InstallState = { error: null };
 
 /** Renders a real template at reduced scale so the card shows the actual design. */
-function Thumbnail({ id }: { id: string }) {
+function Thumbnail({ id, lang }: { id: string; lang: Lang }) {
   const template = templates.find((option) => option.id === id)!;
 
   return (
     <div className="pointer-events-none h-44 overflow-hidden rounded-lg bg-white">
       <div className="h-[880px] w-[800px] origin-top-left scale-[0.28]">
-        <TemplateRenderer template={id} content={template.sample} />
+        <TemplateRenderer
+          template={id}
+          content={{ ...template.sample, language: lang }}
+        />
       </div>
     </div>
   );
 }
 
-export default function GalleryForm() {
-  const [selected, setSelected] = useState(templates[0].id);
+export default function GalleryForm({
+  t,
+  lang,
+  currentTemplate,
+}: {
+  t: UiLabels;
+  lang: Lang;
+  currentTemplate: string | null;
+}) {
+  const isSwitching = currentTemplate !== null;
+  const [selected, setSelected] = useState(currentTemplate ?? templates[0].id);
   const [previewing, setPreviewing] = useState<string | null>(null);
   const [state, formAction, pending] = useActionState(
-    installTemplate,
+    isSwitching ? switchTemplate : installTemplate,
     initialState,
   );
 
@@ -33,10 +50,9 @@ export default function GalleryForm() {
   return (
     <>
       <form action={formAction} className="w-full max-w-5xl">
-        <h1 className="text-2xl font-bold">ডিজাইন গ্যালারি</h1>
+        <h1 className="text-2xl font-bold">{t.galleryTitle}</h1>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          আপনার ব্যবসার ধরনের সাথে মেলে এমন একটা ডিজাইন বেছে নিন। বড় করে দেখতে
-          &ldquo;প্রিভিউ&rdquo; চাপুন।
+          {t.gallerySubtitle}
         </p>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -58,8 +74,15 @@ export default function GalleryForm() {
                   onChange={() => setSelected(template.id)}
                   className="sr-only"
                 />
-                <Thumbnail id={template.id} />
-                <p className="mt-3 font-semibold">{template.name}</p>
+                <Thumbnail id={template.id} lang={lang} />
+                <p className="mt-3 flex items-center gap-2 font-semibold">
+                  {template.name}
+                  {currentTemplate === template.id && (
+                    <span className="rounded-full bg-zinc-200 px-2 py-0.5 text-[10px] font-medium text-zinc-700 dark:bg-zinc-700 dark:text-zinc-200">
+                      {t.currentDesign}
+                    </span>
+                  )}
+                </p>
                 <p className="mt-0.5 text-xs text-zinc-500">
                   {template.audience}
                 </p>
@@ -74,7 +97,7 @@ export default function GalleryForm() {
                   onClick={() => setPreviewing(template.id)}
                   className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-medium dark:border-zinc-700"
                 >
-                  প্রিভিউ
+                  {t.preview}
                 </button>
                 <button
                   type="button"
@@ -85,7 +108,7 @@ export default function GalleryForm() {
                       : "border border-zinc-300 dark:border-zinc-700"
                   }`}
                 >
-                  {selected === template.id ? "বেছে নেওয়া হয়েছে ✓" : "বেছে নিন"}
+                  {selected === template.id ? t.chosen : t.choose}
                 </button>
               </div>
             </div>
@@ -93,38 +116,40 @@ export default function GalleryForm() {
         </div>
 
         <div className="mt-10 max-w-md">
-          <h2 className="text-lg font-semibold">আপনার সাইটের তথ্য</h2>
+          {!isSwitching && (
+            <>
+              <h2 className="text-lg font-semibold">{t.siteInfo}</h2>
 
-          <label
-            className="mt-4 block text-sm font-medium"
-            htmlFor="business_name"
-          >
-            ব্যবসার নাম
-          </label>
-          <input
-            id="business_name"
-            name="business_name"
-            required
-            placeholder="যেমন: রহিম স্টোর"
-            className="mt-1 w-full rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
-          />
+              <label
+                className="mt-4 block text-sm font-medium"
+                htmlFor="business_name"
+              >
+                {t.businessName}
+              </label>
+              <input
+                id="business_name"
+                name="business_name"
+                required
+                placeholder={t.businessNamePlaceholder}
+                className="mt-1 w-full rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
+              />
 
-          <label className="mt-4 block text-sm font-medium" htmlFor="slug">
-            সাইটের ঠিকানা
-          </label>
-          <div className="mt-1 flex items-center gap-2">
-            <span className="text-sm text-zinc-500">/s/</span>
-            <input
-              id="slug"
-              name="slug"
-              required
-              placeholder="rahim-store"
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
-            />
-          </div>
-          <p className="mt-1 text-xs text-zinc-500">
-            শুধু ছোট হাতের ইংরেজি অক্ষর, সংখ্যা ও হাইফেন। পরে বদলানো যাবে না।
-          </p>
+              <label className="mt-4 block text-sm font-medium" htmlFor="slug">
+                {t.siteAddress}
+              </label>
+              <div className="mt-1 flex items-center gap-2">
+                <span className="text-sm text-zinc-500">/s/</span>
+                <input
+                  id="slug"
+                  name="slug"
+                  required
+                  placeholder="rahim-store"
+                  className="w-full rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
+                />
+              </div>
+              <p className="mt-1 text-xs text-zinc-500">{t.slugHint}</p>
+            </>
+          )}
 
           {state.error && (
             <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
@@ -137,7 +162,13 @@ export default function GalleryForm() {
             disabled={pending}
             className="mt-6 w-full rounded-lg bg-black px-4 py-2.5 font-medium text-white disabled:opacity-50 dark:bg-white dark:text-black"
           >
-            {pending ? "তৈরি হচ্ছে..." : "এই ডিজাইন বেছে নিন"}
+            {isSwitching
+              ? pending
+                ? t.applying
+                : t.applyDesign
+              : pending
+                ? t.creating
+                : t.chooseThis}
           </button>
         </div>
       </form>
@@ -169,21 +200,21 @@ export default function GalleryForm() {
                   }}
                   className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white"
                 >
-                  এই ডিজাইন বেছে নিন
+                  {t.choose}
                 </button>
                 <button
                   type="button"
                   onClick={() => setPreviewing(null)}
                   className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-700"
                 >
-                  বন্ধ
+                  {t.close}
                 </button>
               </div>
             </div>
             <div className="flex-1 overflow-y-auto">
               <TemplateRenderer
                 template={previewTemplate.id}
-                content={previewTemplate.sample}
+                content={{ ...previewTemplate.sample, language: lang }}
               />
             </div>
           </div>

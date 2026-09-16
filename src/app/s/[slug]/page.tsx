@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TemplateRenderer } from "@/components/templates";
+import { siteLabels } from "@/lib/i18n";
 import { SITE_COLUMNS, toSiteContent, type SiteRow } from "@/lib/site-content";
 import { createClient } from "@/lib/supabase/server";
 
@@ -39,14 +40,13 @@ export default async function SitePage({ params }: PageProps<"/s/[slug]">) {
     notFound();
   }
 
+  const content = toSiteContent(site);
+
   return (
     <div className="flex-1">
-      <TemplateRenderer
-        template={site.template}
-        content={toSiteContent(site)}
-      />
+      <TemplateRenderer template={site.template} content={content} />
       <footer className="bg-white px-6 py-6 text-center text-xs text-zinc-400">
-        Company Profile Maker দিয়ে তৈরি
+        {siteLabels(content.language).builtWith}
       </footer>
     </div>
   );

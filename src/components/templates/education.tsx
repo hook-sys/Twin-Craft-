@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { siteLabels } from "@/lib/i18n";
 import type { SiteContent } from "@/lib/site-content";
 
 export default function EducationTemplate({
@@ -6,6 +7,8 @@ export default function EducationTemplate({
 }: {
   content: SiteContent;
 }) {
+  const L = siteLabels(content.language);
+
   return (
     <div className="min-h-full bg-indigo-50 font-sans text-indigo-950">
       <header className="bg-gradient-to-br from-indigo-700 to-violet-700 px-6 py-14 text-white">
@@ -26,7 +29,7 @@ export default function EducationTemplate({
               href={`tel:${content.phone}`}
               className="mt-6 inline-block rounded-xl bg-white px-6 py-3 font-semibold text-indigo-700"
             >
-              ভর্তির জন্য যোগাযোগ করুন
+              {L.admissionCta}
             </a>
           )}
         </div>
@@ -48,7 +51,7 @@ export default function EducationTemplate({
 
         {content.services.length > 0 && (
           <section className="mt-10">
-            <h2 className="text-xl font-bold">যেসব বিষয়ে পড়ানো হয়</h2>
+            <h2 className="text-xl font-bold">{L.subjects}</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {content.services.map((service) => (
                 <div
@@ -64,7 +67,7 @@ export default function EducationTemplate({
 
         {content.about && (
           <section className="mt-10 rounded-2xl bg-white p-6 ring-1 ring-indigo-100">
-            <h2 className="text-xl font-bold">প্রতিষ্ঠান সম্পর্কে</h2>
+            <h2 className="text-xl font-bold">{L.instituteAbout}</h2>
             <p className="mt-3 whitespace-pre-line leading-relaxed text-indigo-900/80">
               {content.about}
             </p>
@@ -72,11 +75,11 @@ export default function EducationTemplate({
         )}
 
         <section className="mt-10 rounded-2xl bg-indigo-700 p-6 text-white">
-          <h2 className="text-xl font-bold">ক্লাসের সময় ও ঠিকানা</h2>
+          <h2 className="text-xl font-bold">{L.classInfo}</h2>
           <div className="mt-3 space-y-1 text-indigo-100">
-            {content.hours && <p>সময়: {content.hours}</p>}
+            {content.hours && <p>{L.hours}: {content.hours}</p>}
             {content.address && <p>{content.address}</p>}
-            {content.phone && <p>ফোন: {content.phone}</p>}
+            {content.phone && <p>{L.phone}: {content.phone}</p>}
             {content.email && <p>{content.email}</p>}
           </div>
         </section>

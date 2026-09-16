@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import LanguageSwitch from "@/components/language-switch";
+import { uiLabels } from "@/lib/i18n";
+import { getLang } from "@/lib/lang";
 import { createClient } from "@/lib/supabase/server";
 import { getTemplate } from "@/lib/templates";
 
 export default async function DashboardPage() {
+  const lang = await getLang();
+  const t = uiLabels(lang);
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -30,19 +36,22 @@ export default async function DashboardPage() {
     <main className="mx-auto w-full max-w-2xl flex-1 px-6 py-12">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">ড্যাশবোর্ড</h1>
+          <h1 className="text-2xl font-bold">{t.dashboard}</h1>
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
             {user.email}
           </p>
         </div>
-        <form action={signOut}>
-          <button
-            type="submit"
-            className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm dark:border-zinc-700"
-          >
-            লগআউট
-          </button>
-        </form>
+        <div className="flex flex-col items-end gap-2">
+          <LanguageSwitch current={lang} />
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm dark:border-zinc-700"
+            >
+              {t.logout}
+            </button>
+          </form>
+        </div>
       </div>
 
       {site ? (
@@ -54,7 +63,7 @@ export default async function DashboardPage() {
             <div>
               <h2 className="font-semibold">{site.business_name}</h2>
               <p className="text-xs text-zinc-500">
-                ডিজাইন: {getTemplate(site.template).name}
+                {t.design}: {getTemplate(site.template).name}
               </p>
             </div>
           </div>
@@ -66,7 +75,7 @@ export default async function DashboardPage() {
           )}
 
           <p className="mt-4 text-sm">
-            আপনার সাইট:{" "}
+            {t.yourSite}:{" "}
             <Link
               href={`/s/${site.slug}`}
               className="font-medium underline"
@@ -81,29 +90,34 @@ export default async function DashboardPage() {
               href="/dashboard/edit"
               className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-black"
             >
-              তথ্য সম্পাদনা করুন
+              {t.editContent}
+            </Link>
+            <Link
+              href="/dashboard/gallery"
+              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium dark:border-zinc-700"
+            >
+              {t.changeDesign}
             </Link>
             <Link
               href={`/s/${site.slug}`}
               target="_blank"
               className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium dark:border-zinc-700"
             >
-              সাইট দেখুন
+              {t.viewSite}
             </Link>
           </div>
         </section>
       ) : (
         <section className="mt-8 rounded-xl border border-dashed border-zinc-300 p-8 text-center dark:border-zinc-700">
-          <h2 className="font-semibold">এখনো কোনো সাইট নেই</h2>
+          <h2 className="font-semibold">{t.noSiteTitle}</h2>
           <p className="mx-auto mt-2 max-w-sm text-sm text-zinc-600 dark:text-zinc-400">
-            ডিজাইন গ্যালারি থেকে একটা টেমপ্লেট বেছে নিন — কয়েক সেকেন্ডেই আপনার
-            কোম্পানি প্রোফাইল সাইট তৈরি হয়ে যাবে।
+            {t.noSiteBody}
           </p>
           <Link
             href="/dashboard/gallery"
             className="mt-6 inline-block rounded-lg bg-black px-5 py-2.5 font-medium text-white dark:bg-white dark:text-black"
           >
-            ডিজাইন গ্যালারি দেখুন
+            {t.openGallery}
           </Link>
         </section>
       )}

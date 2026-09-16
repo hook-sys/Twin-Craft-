@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { siteLabels } from "@/lib/i18n";
 import type { SiteContent } from "@/lib/site-content";
 
 export default function BasicTemplate({ content }: { content: SiteContent }) {
+  const L = siteLabels(content.language);
+
   return (
     <div className="min-h-full bg-white font-sans text-zinc-900">
       <header className="border-b border-zinc-200 px-6 py-14">
@@ -32,7 +35,7 @@ export default function BasicTemplate({ content }: { content: SiteContent }) {
         {content.about && (
           <section>
             <h2 className="text-sm font-semibold text-zinc-500">
-              আমাদের সম্পর্কে
+              {L.about}
             </h2>
             <p className="mt-3 whitespace-pre-line leading-relaxed">
               {content.about}
@@ -43,7 +46,7 @@ export default function BasicTemplate({ content }: { content: SiteContent }) {
         {content.services.length > 0 && (
           <section className="mt-8">
             <h2 className="text-sm font-semibold text-zinc-500">
-              আমাদের সেবা
+              {L.services}
             </h2>
             <ul className="mt-3 list-inside list-disc space-y-1.5">
               {content.services.map((service) => (
@@ -56,7 +59,7 @@ export default function BasicTemplate({ content }: { content: SiteContent }) {
         {content.highlights.length > 0 && (
           <section className="mt-8">
             <h2 className="text-sm font-semibold text-zinc-500">
-              বিশেষ দিক
+              {L.highlights}
             </h2>
             <ul className="mt-3 space-y-1.5">
               {content.highlights.map((item) => (
@@ -68,13 +71,13 @@ export default function BasicTemplate({ content }: { content: SiteContent }) {
 
         <section className="mt-8 rounded-lg bg-zinc-50 p-6">
           <h2 className="text-sm font-semibold text-zinc-500">
-            যোগাযোগ
+            {L.contact}
           </h2>
           <div className="mt-3 space-y-1">
-            {content.phone && <p>ফোন: {content.phone}</p>}
-            {content.email && <p>ইমেইল: {content.email}</p>}
-            {content.address && <p>ঠিকানা: {content.address}</p>}
-            {content.hours && <p>সময়: {content.hours}</p>}
+            {content.phone && <p>{L.phone}: {content.phone}</p>}
+            {content.email && <p>{L.email}: {content.email}</p>}
+            {content.address && <p>{L.address}: {content.address}</p>}
+            {content.hours && <p>{L.hours}: {content.hours}</p>}
           </div>
         </section>
       </main>

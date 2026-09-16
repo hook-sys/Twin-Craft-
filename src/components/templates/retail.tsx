@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { siteLabels } from "@/lib/i18n";
 import type { SiteContent } from "@/lib/site-content";
 
 export default function RetailTemplate({ content }: { content: SiteContent }) {
+  const L = siteLabels(content.language);
+
   return (
     <div className="min-h-full bg-orange-50 font-sans text-orange-950">
       <header className="bg-orange-600 px-6 py-5 text-white">
@@ -30,7 +33,7 @@ export default function RetailTemplate({ content }: { content: SiteContent }) {
 
       {content.phone && (
         <div className="bg-yellow-400 px-6 py-3 text-center font-bold text-orange-950">
-          অর্ডার করতে কল করুন — {content.phone}
+          {L.callToOrder} — {content.phone}
         </div>
       )}
 
@@ -38,7 +41,7 @@ export default function RetailTemplate({ content }: { content: SiteContent }) {
         {content.services.length > 0 && (
           <section>
             <h2 className="text-lg font-black text-orange-700">
-              আমাদের পণ্য
+              {L.products}
             </h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {content.services.map((service) => (
@@ -56,7 +59,7 @@ export default function RetailTemplate({ content }: { content: SiteContent }) {
         {content.about && (
           <section className="mt-10 rounded-xl bg-white p-6 shadow-sm">
             <h2 className="text-lg font-black text-orange-700">
-              দোকান সম্পর্কে
+              {L.shopAbout}
             </h2>
             <p className="mt-3 whitespace-pre-line leading-relaxed">
               {content.about}
@@ -79,11 +82,11 @@ export default function RetailTemplate({ content }: { content: SiteContent }) {
 
         <section className="mt-10 rounded-xl border-2 border-dashed border-orange-300 p-6">
           <h2 className="text-lg font-black text-orange-700">
-            দোকানের ঠিকানা
+            {L.shopAddress}
           </h2>
           <dl className="mt-3 space-y-1 text-sm">
             {content.address && <dd>{content.address}</dd>}
-            {content.hours && <dd>খোলা থাকে: {content.hours}</dd>}
+            {content.hours && <dd>{L.openHours}: {content.hours}</dd>}
             {content.email && <dd>{content.email}</dd>}
           </dl>
         </section>

@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { siteLabels } from "@/lib/i18n";
 import type { SiteContent } from "@/lib/site-content";
 
 export default function RestaurantTemplate({
@@ -6,6 +7,8 @@ export default function RestaurantTemplate({
 }: {
   content: SiteContent;
 }) {
+  const L = siteLabels(content.language);
+
   return (
     <div className="min-h-full bg-neutral-900 font-serif text-amber-50">
       <header className="border-b border-amber-700/40 px-6 py-16 text-center">
@@ -17,7 +20,7 @@ export default function RestaurantTemplate({
           />
         )}
         <p className="text-sm font-semibold text-amber-500">
-          স্বাগতম
+          {L.welcome}
         </p>
         <h1 className="mt-3 text-4xl tracking-wide text-amber-100">
           {content.businessName}
@@ -33,7 +36,7 @@ export default function RestaurantTemplate({
         {content.services.length > 0 && (
           <section>
             <h2 className="text-center text-sm font-semibold text-amber-500">
-              আমাদের মেনু
+              {L.menu}
             </h2>
             <ul className="mt-6 space-y-4">
               {content.services.map((item) => (
@@ -52,7 +55,7 @@ export default function RestaurantTemplate({
         {content.about && (
           <section className="mt-12 text-center">
             <h2 className="text-sm font-semibold text-amber-500">
-              আমাদের গল্প
+              {L.story}
             </h2>
             <p className="mt-4 whitespace-pre-line leading-loose text-amber-100/80">
               {content.about}
@@ -75,14 +78,14 @@ export default function RestaurantTemplate({
 
         <section className="mt-12 border-t border-amber-700/40 pt-8 text-center">
           {content.hours && (
-            <p className="text-amber-200">খোলা থাকে: {content.hours}</p>
+            <p className="text-amber-200">{L.openHours}: {content.hours}</p>
           )}
           {content.phone && (
             <a
               href={`tel:${content.phone}`}
               className="mt-4 inline-block rounded-full border border-amber-500 px-8 py-3 text-amber-200"
             >
-              টেবিল বুক করুন — {content.phone}
+              {L.bookTable} — {content.phone}
             </a>
           )}
           {content.address && (

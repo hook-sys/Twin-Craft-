@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { siteLabels } from "@/lib/i18n";
 import type { SiteContent } from "@/lib/site-content";
 
 export default function ServiceTemplate({ content }: { content: SiteContent }) {
+  const L = siteLabels(content.language);
+
   return (
     <div className="min-h-full bg-slate-100 font-sans text-slate-900">
       <header className="bg-blue-800 px-6 py-12 text-white">
@@ -23,11 +26,11 @@ export default function ServiceTemplate({ content }: { content: SiteContent }) {
               href={`tel:${content.phone}`}
               className="mt-6 inline-block rounded-lg bg-yellow-400 px-6 py-3 text-lg font-bold text-blue-950"
             >
-              📞 এখনই কল করুন: {content.phone}
+              📞 {L.callNow}: {content.phone}
             </a>
           )}
           {content.hours && (
-            <p className="mt-3 text-sm text-blue-200">সময়: {content.hours}</p>
+            <p className="mt-3 text-sm text-blue-200">{L.hours}: {content.hours}</p>
           )}
         </div>
       </header>
@@ -35,7 +38,7 @@ export default function ServiceTemplate({ content }: { content: SiteContent }) {
       <main className="mx-auto max-w-3xl px-6 py-10">
         {content.services.length > 0 && (
           <section>
-            <h2 className="text-xl font-bold">আমরা যে কাজগুলো করি</h2>
+            <h2 className="text-xl font-bold">{L.workWeDo}</h2>
             <ul className="mt-4 divide-y divide-slate-200 overflow-hidden rounded-xl bg-white">
               {content.services.map((service) => (
                 <li
@@ -67,7 +70,7 @@ export default function ServiceTemplate({ content }: { content: SiteContent }) {
 
         {content.about && (
           <section className="mt-8 rounded-xl bg-white p-6">
-            <h2 className="text-xl font-bold">আমাদের পরিচয়</h2>
+            <h2 className="text-xl font-bold">{L.identity}</h2>
             <p className="mt-3 whitespace-pre-line leading-relaxed text-slate-700">
               {content.about}
             </p>
@@ -75,7 +78,7 @@ export default function ServiceTemplate({ content }: { content: SiteContent }) {
         )}
 
         <section className="mt-8 rounded-xl border border-slate-300 bg-white p-6">
-          <h2 className="text-xl font-bold">যোগাযোগ</h2>
+          <h2 className="text-xl font-bold">{L.contact}</h2>
           <div className="mt-3 space-y-1 text-slate-700">
             {content.address && <p>{content.address}</p>}
             {content.email && <p>{content.email}</p>}

@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
+import { siteLabels } from "@/lib/i18n";
 import type { SiteContent } from "@/lib/site-content";
 
 export default function EventTemplate({ content }: { content: SiteContent }) {
+  const L = siteLabels(content.language);
   const [cover, ...rest] = content.gallery;
 
   return (
@@ -48,7 +50,7 @@ export default function EventTemplate({ content }: { content: SiteContent }) {
         {content.services.length > 0 && (
           <section className="mt-12 text-center">
             <h2 className="text-sm font-semibold text-rose-500">
-              আমাদের সেবা
+              {L.services}
             </h2>
             <ul className="mt-6 flex flex-wrap justify-center gap-3">
               {content.services.map((service) => (
@@ -66,7 +68,7 @@ export default function EventTemplate({ content }: { content: SiteContent }) {
         {content.about && (
           <section className="mt-12 text-center">
             <h2 className="text-sm font-semibold text-rose-500">
-              আমাদের কথা
+              {L.ourWords}
             </h2>
             <p className="mt-4 whitespace-pre-line text-lg leading-loose italic">
               {content.about}
@@ -88,7 +90,7 @@ export default function EventTemplate({ content }: { content: SiteContent }) {
         )}
 
         <section className="mt-12 rounded-2xl bg-rose-600 p-8 text-center text-white">
-          <h2 className="text-2xl italic">আপনার আয়োজন আমাদের হাতে</h2>
+          <h2 className="text-2xl italic">{L.eventCta}</h2>
           {content.phone && (
             <a
               href={`tel:${content.phone}`}
