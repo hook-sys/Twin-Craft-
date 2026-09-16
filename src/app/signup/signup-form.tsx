@@ -2,12 +2,53 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Arrow } from "@/components/marketing/chrome";
 import type { UiLabels } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase/client";
+
+const inputClass =
+  "w-full rounded-2xl border border-slate-200 bg-white/90 py-3.5 pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100";
+
+function MailIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.7}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      className="h-5 w-5"
+    >
+      <rect x="3" y="5" width="18" height="14" rx="3" />
+      <path d="m4 7.5 8 5 8-5" />
+    </svg>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.7}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      className="h-5 w-5"
+    >
+      <rect x="4.5" y="10" width="15" height="10" rx="3" />
+      <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10" />
+    </svg>
+  );
+}
 
 export default function SignupForm({ t }: { t: UiLabels }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,56 +77,73 @@ export default function SignupForm({ t }: { t: UiLabels }) {
 
   if (done) {
     return (
-      <div className="w-full max-w-sm text-center">
+      <div className="text-center">
         <h1 className="text-2xl font-bold">{t.checkEmail} ✉️</h1>
-        <p className="mt-3 text-zinc-600 dark:text-zinc-400">
+        <p className="mt-4 text-slate-600">
           <strong>{email}</strong> — {t.checkEmailBody}
         </p>
         <Link
           href="/login"
-          className="mt-6 inline-block text-sm font-medium underline"
+          className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] px-7 py-3.5 font-semibold text-white"
         >
           {t.goToLogin}
+          <Arrow className="h-4 w-4" />
         </Link>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm">
-      <h1 className="text-2xl font-bold">{t.signupTitle}</h1>
-      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        {t.signupSubtitle}
-      </p>
+    <form onSubmit={handleSubmit}>
+      <h1 className="text-3xl font-bold">{t.signupTitle}</h1>
+      <p className="mt-2 text-slate-600">{t.signupSubtitle}</p>
 
-      <label className="mt-6 block text-sm font-medium" htmlFor="email">
+      <label className="mt-8 block text-sm font-semibold" htmlFor="email">
         {t.emailLabel}
       </label>
-      <input
-        id="email"
-        type="email"
-        required
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        className="mt-1 w-full rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
-      />
+      <div className="relative mt-2">
+        <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
+          <MailIcon />
+        </span>
+        <input
+          id="email"
+          type="email"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="you@example.com"
+          className={inputClass}
+        />
+      </div>
 
-      <label className="mt-4 block text-sm font-medium" htmlFor="password">
+      <label className="mt-5 block text-sm font-semibold" htmlFor="password">
         {t.passwordLabel}
       </label>
-      <input
-        id="password"
-        type="password"
-        required
-        minLength={6}
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-        className="mt-1 w-full rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
-      />
-      <p className="mt-1 text-xs text-zinc-500">{t.passwordHint}</p>
+      <div className="relative mt-2">
+        <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
+          <LockIcon />
+        </span>
+        <input
+          id="password"
+          type={show ? "text" : "password"}
+          required
+          minLength={6}
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          className={inputClass}
+        />
+        <button
+          type="button"
+          onClick={() => setShow((value) => !value)}
+          className="absolute inset-y-0 right-4 text-sm font-medium text-slate-500"
+        >
+          {show ? "••" : "👁"}
+        </button>
+      </div>
+      <p className="mt-2 text-sm text-slate-500">{t.passwordHint}</p>
 
       {error && (
-        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+        <p className="mt-5 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </p>
       )}
@@ -93,14 +151,15 @@ export default function SignupForm({ t }: { t: UiLabels }) {
       <button
         type="submit"
         disabled={loading}
-        className="mt-6 w-full rounded-lg bg-black px-4 py-2.5 font-medium text-white disabled:opacity-50 dark:bg-white dark:text-black"
+        className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] py-4 font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:brightness-110 disabled:opacity-60"
       >
         {loading ? t.waiting : t.createAccount}
+        {!loading && <Arrow className="h-4 w-4" />}
       </button>
 
-      <p className="mt-4 text-center text-sm text-zinc-600 dark:text-zinc-400">
+      <p className="mt-6 text-center text-sm text-slate-600 lg:hidden">
         {t.haveAccount}{" "}
-        <Link href="/login" className="font-medium underline">
+        <Link href="/login" className="font-semibold text-indigo-600">
           {t.login}
         </Link>
       </p>

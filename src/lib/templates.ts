@@ -8,6 +8,8 @@ export type TemplateMeta = {
   audience: string;
   description: string;
   swatch: string;
+  /** How many blocks the template renders — shown on the gallery card. */
+  sections: number;
   /** Seeds a freshly installed site, and fills the gallery preview. */
   demo: (businessName: string, language: Lang) => SiteContent;
 };
@@ -56,6 +58,7 @@ function build(
 export const templates: TemplateMeta[] = [
   {
     id: "retail",
+    sections: 7,
     name: "রিটেইল / দোকান",
     audience: "মুদি, ফ্যাশন, ইলেকট্রনিক্স শপ",
     description:
@@ -65,6 +68,7 @@ export const templates: TemplateMeta[] = [
   },
   {
     id: "service",
+    sections: 5,
     name: "সার্ভিস প্রোভাইডার",
     audience: "ইলেকট্রিশিয়ান, প্লাম্বার, সেলুন",
     description:
@@ -95,6 +99,7 @@ export const templates: TemplateMeta[] = [
   },
   {
     id: "consultant",
+    sections: 5,
     name: "প্রফেশনাল কনসালট্যান্ট",
     audience: "আইনজীবী, অডিটর, ইঞ্জিনিয়ার",
     description:
@@ -124,6 +129,7 @@ export const templates: TemplateMeta[] = [
   },
   {
     id: "restaurant",
+    sections: 5,
     name: "রেস্টুরেন্ট / ক্যাফে",
     audience: "খাবার দোকান, ক্লাউড কিচেন",
     description:
@@ -154,6 +160,7 @@ export const templates: TemplateMeta[] = [
   },
   {
     id: "manufacturer",
+    sections: 6,
     name: "ম্যানুফ্যাকচারার / ফ্যাক্টরি",
     audience: "গার্মেন্টস, এক্সপোর্ট ফ্যাক্টরি",
     description:
@@ -185,6 +192,7 @@ export const templates: TemplateMeta[] = [
   },
   {
     id: "event",
+    sections: 6,
     name: "ইভেন্ট / ওয়েডিং প্ল্যানার",
     audience: "বিয়ে, গায়ে হলুদ, কর্পোরেট ইভেন্ট",
     description: "ফুল-ব্লিড কভার, ইটালিক সিরিফ ও বড় ছবির মোজাইক গ্যালারি।",
@@ -214,6 +222,7 @@ export const templates: TemplateMeta[] = [
   },
   {
     id: "education",
+    sections: 5,
     name: "এডুকেশন / কোচিং",
     audience: "টিউটর, কোচিং সেন্টার",
     description: "গাঢ় নেভি হিরো, ভাসমান ফিচার কার্ড ও বিষয়ের পরিচ্ছন্ন গ্রিড।",
@@ -244,6 +253,7 @@ export const templates: TemplateMeta[] = [
   },
   {
     id: "basic",
+    sections: 8,
     name: "জেনেরিক / বেসিক",
     audience: "যেকোনো ব্যবসা",
     description:
