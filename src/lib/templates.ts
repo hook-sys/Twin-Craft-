@@ -9,9 +9,19 @@ export type TemplateMeta = {
   sample: SiteContent;
 };
 
+/** Stand-in imagery for gallery previews, so a template is judged on its layout. */
 const placeholder = (hue: number) =>
   `data:image/svg+xml,${encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500"><rect width="400" height="500" fill="hsl(${hue} 55% 82%)"/><circle cx="200" cy="230" r="70" fill="hsl(${hue} 45% 72%)"/></svg>`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">` +
+      `<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">` +
+      `<stop offset="0" stop-color="hsl(${hue} 42% 86%)"/>` +
+      `<stop offset="1" stop-color="hsl(${hue + 24} 38% 64%)"/>` +
+      `</linearGradient></defs>` +
+      `<rect width="800" height="600" fill="url(#g)"/>` +
+      `<circle cx="580" cy="190" r="150" fill="#fff" opacity="0.28"/>` +
+      `<circle cx="250" cy="440" r="110" fill="hsl(${hue} 32% 52%)" opacity="0.3"/>` +
+      `<rect x="80" y="120" width="120" height="240" rx="60" fill="#fff" opacity="0.18"/>` +
+      `</svg>`,
   )}`;
 
 export const templates: TemplateMeta[] = [
@@ -19,8 +29,8 @@ export const templates: TemplateMeta[] = [
     id: "retail",
     name: "রিটেইল / দোকান",
     audience: "মুদি, ফ্যাশন, ইলেকট্রনিক্স শপ",
-    description: "উজ্জ্বল কমলা রঙ, পণ্যের গ্রিড আর উপরে বড় করে অর্ডারের নম্বর।",
-    swatch: "bg-gradient-to-br from-orange-400 to-yellow-400",
+    description: "ফুল-ব্লিড হিরো ছবি, পণ্যের বড় গ্রিড আর উপরে স্থির অর্ডার বাটন।",
+    swatch: "bg-gradient-to-br from-stone-200 via-amber-200 to-stone-800",
     sample: {
       language: "bn",
       businessName: "রহিম ভ্যারাইটিজ স্টোর",
@@ -37,7 +47,7 @@ export const templates: TemplateMeta[] = [
         "কোমল পানীয়",
       ],
       highlights: ["হোম ডেলিভারি", "বাকিতে বিক্রি নেই", "১০০% আসল পণ্য"],
-      gallery: [],
+      gallery: [placeholder(28), placeholder(40), placeholder(20), placeholder(35), placeholder(15), placeholder(45), placeholder(10)],
       phone: "01711-000000",
       email: "rahimstore@example.com",
       address: "১২ নং দোকান, নিউ মার্কেট, ঢাকা",
@@ -48,8 +58,8 @@ export const templates: TemplateMeta[] = [
     id: "service",
     name: "সার্ভিস প্রোভাইডার",
     audience: "ইলেকট্রিশিয়ান, প্লাম্বার, সেলুন",
-    description: "নীল ও নির্ভরযোগ্য সাজ, সবার উপরে বড় কল বাটন।",
-    swatch: "bg-gradient-to-br from-blue-500 to-blue-800",
+    description: "গাঢ় পটভূমিতে বিশাল শিরোনাম, চোখে পড়ার মতো কল বাটন ও ভরসার ব্যাজ।",
+    swatch: "bg-gradient-to-br from-slate-900 via-slate-700 to-sky-400",
     sample: {
       language: "bn",
       businessName: "করিম ইলেকট্রিক সার্ভিস",
@@ -65,7 +75,7 @@ export const templates: TemplateMeta[] = [
         "জরুরি মেরামত",
       ],
       highlights: ["২৪/৭ সেবা", "৬ মাসের গ্যারান্টি", "অভিজ্ঞ টেকনিশিয়ান"],
-      gallery: [],
+      gallery: [placeholder(205)],
       phone: "01811-000000",
       email: "karimelectric@example.com",
       address: "মিরপুর ১০, ঢাকা",
@@ -76,8 +86,8 @@ export const templates: TemplateMeta[] = [
     id: "consultant",
     name: "প্রফেশনাল কনসালট্যান্ট",
     audience: "আইনজীবী, অডিটর, ইঞ্জিনিয়ার",
-    description: "সাদা জমিনে সিরিফ টাইপোগ্রাফি — নথির মতো আনুষ্ঠানিক ও পেশাদার।",
-    swatch: "bg-gradient-to-br from-neutral-300 to-neutral-700",
+    description: "আইভরি জমিনে বড় সিরিফ অক্ষর ও সরু রেখা — ম্যাগাজিনের মতো পরিশীলিত।",
+    swatch: "bg-gradient-to-br from-[#faf9f6] via-neutral-300 to-neutral-800",
     sample: {
       language: "bn",
       businessName: "অ্যাডভোকেট এ. কে. এম. হাসান",
@@ -107,8 +117,8 @@ export const templates: TemplateMeta[] = [
     id: "restaurant",
     name: "রেস্টুরেন্ট / ক্যাফে",
     audience: "খাবার দোকান, ক্লাউড কিচেন",
-    description: "গাঢ় পটভূমিতে সোনালি লেখা, মেনু-কার্ডের মতো সাজানো।",
-    swatch: "bg-gradient-to-br from-neutral-800 to-amber-700",
+    description: "প্রায় কালো জমিনে সোনালি সিরিফ, দুই কলামের মেনু ও ছবির স্ট্রিপ।",
+    swatch: "bg-gradient-to-br from-[#0f0d0b] via-[#3a2e22] to-amber-300",
     sample: {
       language: "bn",
       businessName: "নবাবি ভোজ",
@@ -125,7 +135,7 @@ export const templates: TemplateMeta[] = [
         "ফিরনি",
       ],
       highlights: ["হোম ডেলিভারি", "পার্টি অর্ডার"],
-      gallery: [placeholder(30), placeholder(45), placeholder(15)],
+      gallery: [placeholder(28), placeholder(38), placeholder(18), placeholder(45)],
       phone: "01611-000000",
       email: "nawabivoj@example.com",
       address: "নাজিরা বাজার, পুরান ঢাকা",
@@ -136,8 +146,8 @@ export const templates: TemplateMeta[] = [
     id: "manufacturer",
     name: "ম্যানুফ্যাকচারার / ফ্যাক্টরি",
     audience: "গার্মেন্টস, এক্সপোর্ট ফ্যাক্টরি",
-    description: "শিল্প-ধাঁচের গাঢ় ধূসর ও হলুদ, সার্টিফিকেশন সামনে রাখা।",
-    swatch: "bg-gradient-to-br from-slate-700 to-yellow-500",
+    description: "সাদা ও স্লেটের কর্পোরেট সাজ, সার্টিফিকেশন ব্যান্ড ও স্পেক টেবিল।",
+    swatch: "bg-gradient-to-br from-white via-slate-400 to-slate-900",
     sample: {
       language: "bn",
       businessName: "মেঘনা টেক্সটাইল মিলস লিমিটেড",
@@ -153,7 +163,7 @@ export const templates: TemplateMeta[] = [
         "প্যাকেজিং ও শিপমেন্ট",
       ],
       highlights: ["ISO 9001", "OEKO-TEX", "BSCI", "WRAP"],
-      gallery: [],
+      gallery: [placeholder(210)],
       phone: "+880 1511-000000",
       email: "export@meghnatextile.example.com",
       address: "প্লট ৪৫, বিসিক শিল্প নগরী, গাজীপুর",
@@ -164,8 +174,8 @@ export const templates: TemplateMeta[] = [
     id: "event",
     name: "ইভেন্ট / ওয়েডিং প্ল্যানার",
     audience: "বিয়ে, গায়ে হলুদ, কর্পোরেট ইভেন্ট",
-    description: "গোলাপি ও কোমল, বড় ছবির গ্যালারিই মূল আকর্ষণ।",
-    swatch: "bg-gradient-to-br from-rose-300 to-pink-500",
+    description: "ফুল-ব্লিড কভার, ইটালিক সিরিফ ও বড় ছবির মোজাইক গ্যালারি।",
+    swatch: "bg-gradient-to-br from-[#fdf8f5] via-rose-300 to-[#3b2733]",
     sample: {
       language: "bn",
       businessName: "শুভক্ষণ ইভেন্টস",
@@ -185,14 +195,7 @@ export const templates: TemplateMeta[] = [
         "নিজস্ব ডেকোরেশন টিম",
         "বাজেট অনুযায়ী প্যাকেজ",
       ],
-      gallery: [
-        placeholder(340),
-        placeholder(350),
-        placeholder(320),
-        placeholder(10),
-        placeholder(330),
-        placeholder(300),
-      ],
+      gallery: [placeholder(340), placeholder(350), placeholder(320), placeholder(8), placeholder(330), placeholder(300)],
       phone: "01511-111111",
       email: "shubhokkhon@example.com",
       address: "ধানমন্ডি ২৭, ঢাকা",
@@ -203,8 +206,8 @@ export const templates: TemplateMeta[] = [
     id: "education",
     name: "এডুকেশন / কোচিং",
     audience: "টিউটর, কোচিং সেন্টার",
-    description: "বেগুনি-নীল গ্রেডিয়েন্ট, বিষয়ভিত্তিক কার্ড ও ভর্তির বাটন।",
-    swatch: "bg-gradient-to-br from-indigo-500 to-violet-600",
+    description: "গাঢ় নেভি হিরো, ভাসমান ফিচার কার্ড ও বিষয়ের পরিচ্ছন্ন গ্রিড।",
+    swatch: "bg-gradient-to-br from-[#1b1b3a] via-indigo-500 to-amber-300",
     sample: {
       language: "bn",
       businessName: "উন্মেষ কোচিং সেন্টার",
@@ -221,7 +224,7 @@ export const templates: TemplateMeta[] = [
         "জীববিজ্ঞান",
       ],
       highlights: ["ব্যাচে সর্বোচ্চ ১৫ জন", "সাপ্তাহিক পরীক্ষা", "৯৮% পাসের হার"],
-      gallery: [],
+      gallery: [placeholder(250)],
       phone: "01411-000000",
       email: "unmesh.coaching@example.com",
       address: "কলেজ রোড, ময়মনসিংহ",
@@ -232,8 +235,8 @@ export const templates: TemplateMeta[] = [
     id: "basic",
     name: "জেনেরিক / বেসিক",
     audience: "যেকোনো ব্যবসা",
-    description: "সাদামাটা ও নিরপেক্ষ — কোনো ধরনের ব্যবসাতেই মানিয়ে যায়।",
-    swatch: "bg-gradient-to-br from-zinc-200 to-zinc-500",
+    description: "সুইস ধাঁচের ন্যূনতম সাজ — বিশাল অক্ষর, প্রচুর ফাঁকা জায়গা, সরু রেখা।",
+    swatch: "bg-gradient-to-br from-white via-zinc-300 to-zinc-900",
     sample: {
       language: "bn",
       businessName: "আপনার প্রতিষ্ঠানের নাম",
@@ -243,7 +246,7 @@ export const templates: TemplateMeta[] = [
         "এখানে আপনার ব্যবসার গল্প লিখুন — কবে শুরু করেছেন, কী কী করেন, আর গ্রাহকরা কেন আপনাকে বেছে নেবেন।",
       services: ["প্রথম সেবা", "দ্বিতীয় সেবা", "তৃতীয় সেবা"],
       highlights: ["বিশেষ দিক এক", "বিশেষ দিক দুই"],
-      gallery: [],
+      gallery: [placeholder(220), placeholder(190), placeholder(260), placeholder(210)],
       phone: "01XXXXXXXXX",
       email: "your@email.com",
       address: "আপনার ঠিকানা",
