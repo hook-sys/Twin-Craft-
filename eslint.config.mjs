@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The v1 app, kept for reference. See legacy/README.md.
+    "legacy/**",
   ]),
 ]);
 

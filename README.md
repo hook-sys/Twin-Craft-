@@ -1,35 +1,38 @@
-# Company Profile Maker
+# Aladeen
 
-বাংলাদেশের ছোট ব্যবসার জন্য "Company Profile Maker" SaaS — ইউজার ফ্রি সাইনআপ করে
-একটা ডিজাইন টেমপ্লেট বসিয়ে নিজের সাবডোমেইনে সাইট লাইভ করতে পারবে।
+Company website builder, CRM, inventory, accounts and HR for small businesses.
 
-## টেক স্ট্যাক
+- **Website builder** (primary product): pick a template, customise it, publish.
+- **Business modules**: CRM, inventory, accounts and HR — deliberately simple.
 
-- **Next.js (App Router)** + **TypeScript** — ওয়েবসাইটের কাঠামো
-- **Tailwind CSS** — ডিজাইন/স্টাইল
-- **Supabase** — ডাটাবেস ও লগইন (অথ)
-- **Vercel** — হোস্টিং (সাইট লাইভ থাকে এখানে)
+## Stack
 
-## লোকালি চালানো (নিজের কম্পিউটারে)
+Next.js (App Router) · TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth,
+Storage) · Vercel.
 
-প্রথমে দরকার: [Node.js](https://nodejs.org) ইনস্টল করা থাকতে হবে।
+## Running it locally
 
 ```bash
-npm install     # প্রয়োজনীয় সব প্যাকেজ ইনস্টল হবে
-npm run dev     # ডেভেলপমেন্ট সার্ভার চালু হবে
+npm install
+cp .env.example .env.local   # fill in the two Supabase values
+npm run dev
 ```
 
-এরপর ব্রাউজারে যান: http://localhost:3000 — সেখানে "Hello World" পেজটা দেখতে পাবেন।
+| Script | Does |
+|---|---|
+| `npm run dev` | development server |
+| `npm run build` | production build |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript, no emit |
 
-## টেস্ট চেকলিস্ট (এই ধাপের জন্য)
+## Database
 
-- [ ] `npm run dev` চালিয়ে লোকালে পেজ লোড হচ্ছে কিনা দেখুন
-- [ ] GitHub-এ কোড পুশ হয়েছে কিনা দেখুন (Actions/commit history)
-- [ ] Vercel-এ প্রজেক্ট কানেক্ট করে ডিপ্লয় হওয়া লিংকে (যেমন `your-app.vercel.app`) গিয়ে একই পেজ দেখা যাচ্ছে কিনা যাচাই করুন
+The schema lives in `supabase/migrations/`, applied in filename order. The first
+account to sign up becomes the platform `SUPER_ADMIN`; everybody after them is a
+normal user who creates their own company on first login.
 
-## পরের ধাপ
+## Layout
 
-1. Supabase প্রজেক্ট বানিয়ে অথেন্টিকেশন (সাইনআপ/লগইন) যোগ করা
-2. ডিজাইন গ্যালারি ও টেমপ্লেট "ইনস্টল" ফিচার বানানো
-3. সাবডোমেইন রাউটিং (`store.myapp.com`) সেটআপ করা
-4. পেইড টিয়ার: কাস্টম ডোমেইন, লিড ম্যানেজমেন্ট, প্রোডাক্ট ক্যাটালগ, অ্যানালিটিক্স
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the rules every file
+follows, and [`legacy/README.md`](legacy/README.md) for the v1 app kept as
+reference.

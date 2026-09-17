@@ -1,26 +1,71 @@
 @import "tailwindcss";
 
+/*
+ * Aladeen design tokens.
+ * Light, minimal, soft blue. Every colour the product uses is named here —
+ * components reference the token, never a raw hex.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --canvas: #f6f8fc;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --line: #e6ebf3;
+  --line-strong: #d3dbe8;
+
+  --ink: #0f172a;
+  --ink-soft: #475569;
+  --ink-muted: #94a3b8;
+
+  --brand: #2563eb;
+  --brand-hover: #1d4ed8;
+  --brand-soft: #eff5ff;
+  --brand-ink: #1e40af;
+
+  --success: #059669;
+  --success-soft: #ecfdf5;
+  --warning: #d97706;
+  --warning-soft: #fffbeb;
+  --danger: #e11d48;
+  --danger-soft: #fff1f2;
+
+  --radius: 0.875rem;
+  --radius-lg: 1.25rem;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-float: 0 20px 50px -30px rgba(15, 23, 42, 0.45);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-ink: var(--brand-ink);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
   --font-sans: system-ui, "Noto Sans Bengali", "Hind Siliguri", "Segoe UI",
     sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+/* Bangla conjuncts break apart above ~0.05em of tracking, so wide tracking is
+   opt-in per element and only ever applied to Latin text. */
+.tracking-eyebrow {
+  letter-spacing: 0.22em;
 }
